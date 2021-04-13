@@ -1,14 +1,6 @@
 const axios = require('axios')
 const fs = require('fs')
-
-var log4js = require('log4js')
-log4js.configure({
-    appenders: [
-        { type: 'console' },
-        { type: 'file', filename: 'app.log', category: 'PicGo4MWeb' },
-    ],
-})
-var log = log4js.getLogger('PicGo4MWeb')
+const log = require('./log.js')
 
 /**
  * 为文件加上扩展名

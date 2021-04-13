@@ -1,5 +1,7 @@
 const http = require('http')
 const formidable = require('formidable')
+const log = require('./log.js')
+
 const config = require('./config.json')
 const uploadImage = require('./picgo.js')
 // 默认8080端口
@@ -10,15 +12,6 @@ const url = config.url || '/upload'
 const fileName = config.fileName || "file"
 // Response URL Path
 const urlPath = config.urlPath || "url"
-
-var log4js = require('log4js')
-log4js.configure({
-  appenders: [
-    { type: 'console' },
-    { type: 'file', filename: 'app.log', category: 'PicGo4MWeb' }
-  ]
-})
-var log = log4js.getLogger('PicGo4MWeb')
 
 var tasks = []
 function addTask(file, response) {
