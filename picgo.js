@@ -10,16 +10,8 @@ const log = require('./log.js')
  */
 function addExtForFile(filePath, ext) {
     let newFilePath = filePath + '.' + ext
-
-    fs.rename(filePath, newFilePath, (err) => {
-        if (err) {
-            log.error('移动文件失败' + err)
-        }
-        log.info('移动文件完成')
-    })
-    setTimeout(() => {
-        log.debug('为了等待rename完成而settimeout')
-    }, 1)
+    // 同步修改文件名字
+    fs.renameSync(filePath, newFilePath)
     return newFilePath
 }
 
@@ -41,6 +33,8 @@ async function uploadImage(file) {
             // 如果文件路径没有扩展名，上传到图床会乱码，这里改名，加上扩展名
             filePath = addExtForFile(filePath, extension)
         }
+
+        log.info("开始上传文件：" + filePath)
 
         let body = {
             list: [filePath],
