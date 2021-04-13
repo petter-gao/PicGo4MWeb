@@ -46,46 +46,41 @@ function addTask(file, response) {
     filePathArray.push(filePath)
     responseArray.push(response)
 
-    log.info('file count:' + filePathArray.length)
-
-    if (timeoutId) {
-        clearTimeout(timeoutId)
+    if (filePathArray.length == 1) {
+      // 第一次手动触发
+      handleTask()
     }
-    timeoutId = setTimeout(() => {
-        // 延迟上传，1秒之内所有的请求都会合并到一次请求中
-        handleTask()
-    }, 1000)
 }
 
 function handleTask() {
-    uploadImage(filePathArray).then((resultList) => {
+    if (filePathArray.length == 0) return
+    let filePath = filePathArray[0]
+    uploadImage([filePath]).then((result) => {
+        let response = responseArray.shift()
+        filePathArray.shift()
         // 处理结果
-        if (resultList) {
-            for (let index = 0; index < resultList.length; index++) {
-                const element = resultList[index]
-                const response = responseArray[index]
-                response.writeHead(200, { 'Content-Type': 'text/json' })
-                let res = { status: 'success' }
-                res[urlPath] = element
-                response.write(JSON.stringify(res))
-                response.end()
-            }
+        if (result) {
+            response.writeHead(200, { 'Content-Type': 'text/json' })
+            let res = { status: 'success' }
+            res[urlPath] = result
+            response.write(JSON.stringify(res))
         } else {
-            for (let index = 0; index < responseArray.length; index++) {
-                const response = responseArray[index]
-                response.writeHead(500, { 'Content-Type': 'text/json' })
-                response.write(
-                    JSON.stringify({
-                        status: 'false',
-                    })
-                )
-                response.end()
-            }
+            response.writeHead(500, { 'Content-Type': 'text/json' })
+            response.write(
+                JSON.stringify({
+                    status: 'false',
+                })
+            )
         }
+        response.end()
 
-        tasks = []
-        filePathArray = []
-        responseArray = []
+        log.info("已处理文件：" + filePath)
+        log.info("还剩" + filePathArray.length + "个")
+
+        // 延时触发下一张图片上传，防止文件重名
+        setTimeout(() => {
+            handleTask()
+        }, 200)
     })
 }
 

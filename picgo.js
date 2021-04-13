@@ -10,8 +10,8 @@ async function uploadImage(filePathArray) {
         // PicGo Server地址
         let picGoServer = 'http://127.0.0.1:36677/upload'
 
-        log.info("开始上传文件：总共" + filePathArray.length + "个")
-        log.debug(filePathArray.join(","))
+        // log.info("开始上传文件：总共" + filePathArray.length + "个")
+        // log.debug(filePathArray.join(","))
         
         let body = {
             list: filePathArray,
@@ -24,7 +24,7 @@ async function uploadImage(filePathArray) {
         let imgUrlList = upImgResp.data['result']
         if (imgUrlList) {
             log.info('success upload ' + imgUrlList.length + ' pic')
-            return imgUrlList
+            return imgUrlList[0]
         } else {
             return null
         }
