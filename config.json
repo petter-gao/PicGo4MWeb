@@ -1,4 +1,6 @@
 {
 	"port": 8081,
-	"url": "/upload"
+	"url": "/upload",
+	"fileName": "file",
+	"urlPath": "url"
 }

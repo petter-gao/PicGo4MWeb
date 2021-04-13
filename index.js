@@ -6,6 +6,11 @@ const uploadImage = require('./picgo.js')
 var port = config.port || 8080
 // 默认路径 /upload
 const url = config.url || '/upload'
+// POST File Name
+const fileName = config.fileName || "file"
+// Response URL Path
+const urlPath = config.urlPath || "url"
+
 var log4js = require('log4js')
 log4js.configure({
   appenders: [
@@ -36,10 +41,9 @@ function handleTask() {
       // 处理结果
       if (result) {
         response.writeHead(200, {"Content-Type": "text/json"})
-        response.write(JSON.stringify({
-          status:'success',
-          url:result
-        }))
+        let res = {status:'success'}
+        res[urlPath] = result
+        response.write(JSON.stringify(res))
       } else {
         response.writeHead(500, {"Content-Type": "text/json"})
         response.write(JSON.stringify({
@@ -65,7 +69,9 @@ http.createServer(function (req, res) {
         res.send(err)
         return
       }
-      if (!files.file) {
+      let file = files[fileName]
+
+      if (!file) {
         res.writeHead(500, {"Content-Type": "text/json"})
         log.error('no file found')
         res.write(JSON.stringify({
@@ -76,11 +82,11 @@ http.createServer(function (req, res) {
         return
       }
 
-      addTask(files.file, res)
+      addTask(file, res)
     })
   } else {
       res.writeHead(404, {"Content-Type": "text/plain"})
-      res.write('not fonud')
+      res.write('The URL Path is ' + url)
       res.end()
   }
 }).listen(port)
