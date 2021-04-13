@@ -1,0 +1,13 @@
+{
+  "name": "PicGo4MWeb",
+  "version": "1.0.0",
+  "description": "MWeb中支持通过PicGo上传图片到图床",
+  "main": "index.js",
+  "author": "gaopeng",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "formidable": "^1.1.1",
+    "log4js": "^1.1.1"
+  }
+}
