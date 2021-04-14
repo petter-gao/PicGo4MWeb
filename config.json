@@ -3,5 +3,5 @@
 	"url": "/upload",
 	"fileName": "file",
 	"urlPath": "url",
-	"interval": 200
+	"interval": 1000
 }

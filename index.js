@@ -13,7 +13,7 @@ const url = config.url || '/upload'
 const fileName = config.fileName || 'file'
 // Response URL Path
 const urlPath = config.urlPath || 'url'
-// 每张图片上传的等待间隔
+// 两张图片上传的等待间隔
 const interval = config.interval || 200
 
 let timeoutId = null
