@@ -6,7 +6,7 @@
 
 ## 用法
 
-1. `git clone https://github.com/gaop-0561/PicBed4MWeb.git ` 克隆项目
+1. `git clone https://github.com/gaop-0561/PicGo4MWeb.git ` 克隆项目
 2. `yarn（or npm install）` 安装依赖
 3. 修改config.json
 4. `node index.js` 运行server
